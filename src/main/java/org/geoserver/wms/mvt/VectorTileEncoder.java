@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -212,8 +213,13 @@ public class VectorTileEncoder {
             if (e.getValue() == null) {
                 continue;
             }
-            feature.tags.add(layer.key(e.getKey()));
-            feature.tags.add(layer.value(e.getValue()));
+	    if (e.getKey().equals("id")) {
+                feature.tags.add(layer.key(e.getKey()));
+                feature.tags.add(layer.value(UUID.randomUUID().toString()));
+            } else {
+                feature.tags.add(layer.key(e.getKey()));
+                feature.tags.add(layer.value(e.getValue()));
+            }
         }
 
         layer.features.add(feature);
